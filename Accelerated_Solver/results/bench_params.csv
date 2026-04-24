@@ -1,0 +1,5 @@
+Method,Iters,Residual
+FastSIP (alpha=0.92),98,3.664e-06
+FastSIP (alpha=0.0),340,2.028e-06
+SLOR (omega=1.7),1365,1.394e-06
+SLOR (omega=1.0),4429,1.042e-06
