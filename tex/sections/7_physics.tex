@@ -1,0 +1,27 @@
+\section{Вычисление физических величин}
+	
+	После нахождения потенциала скорости $\varphi(\xi, \eta)$ в расчетной области производится расчет физических характеристик потока.
+	
+	Связь между расчетными $(\xi, \eta)$ и физическими $(x, y)$ координатами:
+	\begin{equation}
+		x = e^\xi \cos \eta, \quad y = e^\xi \sin \eta.
+	\end{equation}
+	
+	Квадрат модуля безразмерной скорости в каждой точке вычисляется через производные потенциала:
+	\begin{equation}
+		q^2 = e^{-2\xi} \left[ \left( \frac{\partial \varphi}{\partial \xi} \right)^2 + \left( \frac{\partial \varphi}{\partial \eta} \right)^2 \right].
+	\end{equation}
+	
+	Локальное число Маха $M_{loc}$ определяется как отношение скорости к локальной скорости звука:
+	\begin{equation}
+		M_{loc} = \frac{q \cdot M_\infty}{a}, \quad a^2 = 1 + \frac{\gamma-1}{2} (1 - q^2) M_\infty^2.
+	\end{equation}
+	
+	Коэффициент давления $C_p$ рассчитывается по формуле для изэнтропического потока:
+	\begin{equation}
+		C_p = \frac{2}{\gamma M_\infty^2} \left( \rho^\gamma - 1 \right), \quad \text{где } \rho = \left[ 1 + \frac{\gamma-1}{2} M_\infty^2 (1 - q^2) \right]^{\frac{1}{\gamma-1}}.
+	\end{equation}
+	При $M_\infty \to 0$ (случай несжимаемой жидкости) формула для коэффициента давления переходит в классический вид:
+	\begin{equation}
+		C_p = 1 - q^2.
+	\end{equation}

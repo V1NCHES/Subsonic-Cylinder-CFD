@@ -1,0 +1,62 @@
+\section{Уравнения Эйлера в размерном виде}
+	
+	Рассматривается стационарная задача, поэтому слагаемые, зависящие от времени, в уравнениях Эйлера опущены. Для описания течения сжимаемого газа используем систему уравнений Эйлера в размерном виде. Обозначим размерные величины со звездочкой $*$. 
+	
+	Уравнение неразрывности:
+	\[
+	\frac{\partial (\rho^* u^*)}{\partial x^*} + \frac{\partial (\rho^* v^*)}{\partial y^*} = 0.
+	\]
+	
+	Уравнения движения (компоненты):
+	\[
+	\rho^* \left( u^* \frac{\partial u^*}{\partial x^*} + v^* \frac{\partial u^*}{\partial y^*} \right) = -\frac{\partial p^*}{\partial x^*},
+	\]
+	\[
+	\rho^* \left( u^* \frac{\partial v^*}{\partial x^*} + v^* \frac{\partial v^*}{\partial y^*} \right) = -\frac{\partial p^*}{\partial y^*}.
+	\]
+	
+	Уравнение энергии для изэнтропического течения:
+	\[
+	\frac{p^*}{\rho^{*\gamma}} = \text{const},
+	\]
+	где $\gamma$ — показатель адиабаты.
+	
+	Для стационарного безвихревого течения существует потенциал скорости $\varphi^*$, такой что:
+	\[
+	u^* = \frac{\partial \varphi^*}{\partial x^*}, \quad v^* = \frac{\partial \varphi^*}{\partial y^*}.
+	\]
+	
+	Тогда уравнение неразрывности принимает вид:
+	\[
+	\frac{\partial}{\partial x^*} \left( \rho^* \frac{\partial \varphi^*}{\partial x^*} \right) + \frac{\partial}{\partial y^*} \left( \rho^* \frac{\partial \varphi^*}{\partial y^*} \right) = 0.
+	\]
+	
+	Из условия изэнтропичности и интеграла Бернулли для безвихревого течения:
+	\[
+	\frac{\gamma}{\gamma-1} \frac{p^*}{\rho^*} + \frac{1}{2} \left( \frac{\partial \varphi^*}{\partial x^*} \right)^2 + \frac{1}{2} \left( \frac{\partial \varphi^*}{\partial y^*} \right)^2 = 
+	\frac{\gamma}{\gamma-1} \frac{p_\infty}{\rho_\infty} + \frac{1}{2} U_\infty^2.
+	\]
+	
+	\subsection{Граничные условия в размерной постановке}
+	
+	\subsubsection{Условие непротекания на поверхности цилиндра}
+	На поверхности цилиндра радиуса $R$ (в размерной форме) задается условие непротекания:
+	\[
+	\vec{v}^* \cdot \vec{n} = 0 \quad \text{при} \quad r^* = R,
+	\]
+	где $\vec{n}$ — единичный вектор нормали к поверхности цилиндра.
+	
+	В полярных координатах $(r^*, \theta)$ это условие записывается как:
+	\[
+	\frac{\partial \varphi^*}{\partial r^*} = 0 \quad \text{при} \quad r^* = R.
+	\]
+	
+	\subsubsection{Условие на бесконечности}
+	На больших расстояниях от цилиндра поток невозмущенный:
+	\[
+	\vec{v}^*(r^*) \to U_\infty^* \vec{i} \quad \text{при} \quad r^* \to \infty,
+	\]
+	где $U_\infty^*$ — скорость набегающего потока. В терминах потенциала скорости:
+	\[
+	\varphi^* \to U_\infty^* x^* \quad \text{при} \quad r^* \to \infty.
+	\]

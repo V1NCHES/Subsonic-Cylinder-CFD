@@ -1,0 +1,56 @@
+\babel@toc {russian}{}\relax 
+\contentsline {section}{\numberline {1}Постановка задачи}{3}{section.1}%
+\contentsline {section}{\numberline {2}Уравнения Эйлера в размерном виде}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Граничные условия в размерной постановке}{5}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Условие непротекания на поверхности цилиндра}{5}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Условие на бесконечности}{5}{subsubsection.2.1.2}%
+\contentsline {section}{\numberline {3}Безразмерная постановка задачи}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Безразмерные уравнения Эйлера}{6}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Уравнение неразрывности}{6}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Уравнения движения (компоненты)}{6}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}Уравнение для потенциала скорости}{6}{subsubsection.3.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.4}Уравнение изэнтропичности и связь плотности с потенциалом}{6}{subsubsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.2}Безразмерные граничные условия}{7}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Условие непротекания на поверхности цилиндра}{7}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Условие на бесконечности}{7}{subsubsection.3.2.2}%
+\contentsline {section}{\numberline {4}Преобразование координат и вывод уравнений в системе $(\xi , \eta )$}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Конформное преобразование}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Уравнение для потенциала скорости в координатах $(\xi , \eta )$}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Выражение для плотности через потенциал скорости}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Граничные условия в координатах $(\xi , \eta )$}{8}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Условие на поверхности цилиндра ($\xi = 0$)}{8}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Условие на бесконечности ($\xi \to \infty $)}{9}{subsubsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.3}Условие на нижней и вехней границе}{9}{subsubsection.4.4.3}%
+\contentsline {section}{\numberline {5}Полностью неявный метод (ПНМ)}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Формулировка разностного уравнения}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Формирование разностной схемы }{10}{subsection.5.2}%
+\contentsline {paragraph}{Учет граничных условий в матрице:}{10}{section*.5}%
+\contentsline {subsubsection}{\numberline {5.2.1}Алгоритм сильно неявной процедуры (SIP) Стоуна}{11}{subsubsection.5.2.1}%
+\contentsline {paragraph}{Вычисление коэффициентов разложения:}{12}{section*.6}%
+\contentsline {paragraph}{Решение системы (прямой и обратный ход):}{12}{section*.7}%
+\contentsline {paragraph}{Итерационный процесс продолжается до обеспечения малости поправки $\|\delta \varphi \|_\infty < \epsilon $.}{12}{section*.8}%
+\contentsline {section}{\numberline {6}Метод последовательной верхней релаксации по строкам (SLOR)}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Шаблон разностной схемы}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Формирование трехдиагональной системы}{13}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Учет граничных условий}{13}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Релаксация}{14}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Вычисление физических величин}{15}{section.7}%
+\contentsline {section}{\numberline {8}Результаты расчетов}{15}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Параметры расчета}{15}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Визуализация результатов}{16}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Сравнительный анализ методов}{16}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Заключение по результатам}{17}{subsection.8.4}%
+\contentsline {section}{\numberline {A}Приложение: Вывод уравнения в координатах $(\xi , \eta )$}{18}{appendix.A}%
+\contentsline {section}{\numberline {B}Вывод коэффициентов пятиточечного шаблона для ПНМ}{18}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Дискретизация и линеаризация}{18}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Коэффициенты матрицы ПНМ}{18}{subsection.B.2}%
+\contentsline {section}{\numberline {C}Вывод коэффициентов трехдиагональной системы метода SLOR}{19}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Дискретизация потоков}{19}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Формирование системы уравнений}{19}{subsection.C.2}%
+\contentsline {section}{\numberline {D}Алгоритм численного решения задачи обтекания цилиндра}{20}{appendix.D}%
+\contentsline {subsection}{\numberline {D.1}Входные данные и параметры расчета}{20}{subsection.D.1}%
+\contentsline {subsection}{\numberline {D.2}Генерация расчетной сетки}{20}{subsection.D.2}%
+\contentsline {subsection}{\numberline {D.3}Начальное приближение и граничные условия}{20}{subsection.D.3}%
+\contentsline {subsection}{\numberline {D.4}Итерационный процесс решения}{21}{subsection.D.4}%
+\contentsline {subsubsection}{\numberline {D.4.1}Обновление поля плотности}{21}{subsubsection.D.4.1}%
+\contentsline {subsubsection}{\numberline {D.4.2}Решение уравнения для потенциала (SLOR)}{21}{subsubsection.D.4.2}%
