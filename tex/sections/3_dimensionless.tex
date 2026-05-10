@@ -1,0 +1,87 @@
+\section{Безразмерная постановка задачи}
+	
+	Для приведения системы уравнений Эйлера к безразмерному виду используем $\pi$-теорему теории размерности. В качестве основных масштабов выберем:
+	\begin{itemize}
+		\item Масштаб длины: $L = R$ — радиус цилиндра,
+		\item Масштаб скорости: $U_\infty$ — скорость набегающего потока,
+		\item Масштаб плотности: $\rho_\infty$ — плотность невозмущенного потока,
+		\item Масштаб давления: $\rho_\infty U_\infty^2$.
+	\end{itemize}
+	
+	Введем следующие безразмерные переменные:
+	\[
+	x = \frac{x^*}{L}, \quad y = \frac{y^*}{L}, \quad \varphi = \frac{\varphi^*}{U_\infty L}, \quad \rho = \frac{\rho^*}{\rho_\infty}, \quad p = \frac{p^*}{\rho_\infty U_\infty^2} \\
+	\quad u = \frac{u^*}{U_\infty}, \quad a = \frac{a^*}{a_\infty}\quad M_{loc} = \frac{q}{a}\cdot M_\infty.
+	\]
+	
+	Размер расчетной области задан величиной $R_\infty = 20$. Основным варьируемым параметром задачи является число Маха набегающего потока $M_\infty$.
+	
+	\subsection{Безразмерные уравнения Эйлера}
+	
+	\subsubsection{Уравнение неразрывности}
+	\[
+	\frac{\partial (\rho u)}{\partial x} + \frac{\partial (\rho v)}{\partial y} = 0.
+	\]
+	
+	\subsubsection{Уравнения движения (компоненты)}
+	\[
+	\rho \left( u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} \right) = -\frac{\partial p}{\partial x},
+	\]
+	\[
+	\rho \left( u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} \right) = -\frac{\partial p}{\partial y}.
+	\]
+	
+	\subsubsection{Уравнение для потенциала скорости}
+	При условии безвихревости течения $\nabla \times \vec{v} = 0$ существует потенциал скорости $\vec{v} = \nabla \varphi$. Уравнение неразрывности в безразмерной форме принимает вид:
+	\[
+	\frac{\partial}{\partial x} \left( \rho \frac{\partial \varphi}{\partial x} \right) + \frac{\partial}{\partial y} \left( \rho \frac{\partial \varphi}{\partial y} \right) = 0.
+	\]
+	
+	\subsubsection{Уравнение изэнтропичности и связь плотности с потенциалом}
+	
+	Из интеграла Бернулли для безвихревого изэнтропического течения:
+	\[
+	\frac{\gamma}{\gamma-1} \frac{p}{\rho} + \frac{1}{2} (u^2 + v^2) = \frac{1}{(\gamma-1)M^2_\infty} + \frac{1}{2}.
+	\]
+	
+	С учетом изэнтропического соотношения $p / \rho^\gamma = \text{const}$ и переходя к безразмерным переменным, получим:
+	\[
+	\rho = \left[ 1 + \frac{\gamma-1}{2} M_\infty^2 \left( 1 - (u^2 + v^2) \right) \right]^{\frac{1}{\gamma-1}},
+	\]
+	где $M_\infty = U_\infty / a_\infty$ — число Маха набегающего потока, $a_\infty = \sqrt{\gamma p_\infty / \rho_\infty}$ — скорость звука в невозмущенном потоке.
+	
+	В терминах потенциала скорости:
+	\[
+	u = \frac{\partial \varphi}{\partial x}, \quad v = \frac{\partial \varphi}{\partial y},
+	\]
+	\[
+	q^2 = u^2 + v^2 = \left( \frac{\partial \varphi}{\partial x} \right)^2 + \left( \frac{\partial \varphi}{\partial y} \right)^2.
+	\]
+	
+	Таким образом, плотность выражается через потенциал скорости:
+	\begin{equation}
+		\boxed{\rho = \left[ 1 + \frac{\gamma-1}{2} M_\infty^2 \left( 1 - \left( \frac{\partial \varphi}{\partial x} \right)^2 - \left( \frac{\partial \varphi}{\partial y} \right)^2 \right) \right]^{\frac{1}{\gamma-1}}}
+		\label{eq:density}
+	\end{equation}
+	
+	\subsection{Безразмерные граничные условия}
+	
+	\subsubsection{Условие непротекания на поверхности цилиндра}
+	На поверхности цилиндра $r = 1$ (в безразмерных координатах) нормальная компонента скорости равна нулю:
+	\[
+	\vec{v} \cdot \vec{n} = 0 \quad \text{при} \quad r = 1.
+	\]
+	В полярных координатах это соответствует условию:
+	\[
+	\frac{\partial \varphi}{\partial r} = 0 \quad \text{при} \quad r = 1.
+	\]
+	
+	\subsubsection{Условие на бесконечности}
+	На больших расстояниях от цилиндра поток полагается невозмущенным (условие Дирихле):
+	\[
+	\varphi \to x = r \cos \theta \quad \text{при} \quad r \to \infty.
+	\]
+	
+	
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

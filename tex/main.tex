@@ -1,0 +1,99 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\graphicspath{{../results/}{../}}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\geometry{a4paper, top=2cm, bottom=2cm, left=2.5cm, right=1.5cm}
+
+% Перевод команд algorithmic
+\renewcommand{\algorithmicrequire}{\textbf{Вход:}}
+\renewcommand{\algorithmicensure}{\textbf{Выход:}}
+\renewcommand{\algorithmicwhile}{\textbf{До тех пор, пока}}
+\renewcommand{\algorithmicdo}{\textbf{цикл}}
+\renewcommand{\algorithmicendwhile}{\textbf{конец цикла}}
+\renewcommand{\algorithmicfor}{\textbf{Для}}
+\renewcommand{\algorithmicforall}{\textbf{Для всех}}
+\renewcommand{\algorithmicloop}{\textbf{Цикл}}
+\renewcommand{\algorithmicrepeat}{\textbf{Повторять}}
+\renewcommand{\algorithmicuntil}{\textbf{пока}}
+\renewcommand{\algorithmicif}{\textbf{Если}}
+\renewcommand{\algorithmicthen}{\textbf{то}}
+\renewcommand{\algorithmicelse}{\textbf{иначе}}
+\renewcommand{\algorithmicendif}{\textbf{конец если}}
+\renewcommand{\algorithmicdo}{\textbf{делать}}
+\renewcommand{\algorithmicendfor}{\textbf{конец цикла}}
+
+\begin{document}
+	
+	% Титульный лист
+	% Титульный лист
+	\begin{titlepage}
+		\begin{center}
+			{\Large МОСКОВСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ \\ 
+				имени М.В. ЛОМОНОСОВА}
+			
+			\vspace{0.5cm}
+			{\Large МЕХАНИКО-МАТЕМАТИЧЕСКИЙ ФАКУЛЬТЕТ}
+			
+			\vspace{0.3cm}
+			{\large Кафедра аэромеханики и газовой динамики}
+			
+			\vspace{3cm}
+			
+			{\Large \textbf{Задача по компьютерному практикуму}}
+			
+			\vspace{0.5cm}
+			{\Large \textbf{Исследование дозвукового обтекания круглого цилиндра}}
+			
+			\vspace{0.5cm}
+			{\large \textbf{на основе метода конформных отображений и полностью неявного метода}}
+			
+			\vspace{3cm}
+			
+			\begin{flushright}
+				\large
+				студент 5 курса \\
+				Платонычев Иван Андреевич \\[1cm]
+				Преподаватель по задаче: \\
+				кандидат физико-математических наук \\
+				Александр Николаевич Белоглазкин
+			\end{flushright}
+			
+			\vspace{2cm}
+			
+			\begin{center}
+				\large Москва \\
+				\large 2026
+			\end{center}
+		\end{center}
+	\end{titlepage}
+	
+	\newpage
+	\tableofcontents
+	\newpage
+	
+	\input{sections/1_pos_zadachi.tex}
+	\input{sections/2_euler_dim.tex}
+	\input{sections/3_dimensionless.tex}
+	\input{sections/4_transform.tex}
+	\input{sections/5_pnm.tex}
+	\input{sections/6_slor.tex}
+	\input{sections/7_physics.tex}
+	%\newpage
+	\input{sections/8_results.tex}
+	
+	\input{sections/appendix.tex}
+	\input{sections/pseudocode_cylinder.tex}
+
+\end{document}

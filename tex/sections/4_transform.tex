@@ -1,0 +1,93 @@
+\section{Преобразование координат и вывод уравнений в системе \texorpdfstring{$(\xi, \eta)$}{(xi, eta)}}
+	
+	\subsection{Конформное преобразование}
+	
+	Введем комплексную переменную $z = x + iy$. Конформное отображение (рис. \ref{fig:mapping}), переводящее внешность единичной окружности в полуполосу, имеет вид:
+	\begin{equation}
+		\zeta = \ln z = \xi + i\eta,
+	\end{equation}
+	где $\xi = \ln |z| = \ln r$, $\eta = \arg z = \theta$.
+	
+	При таком преобразовании:
+	\begin{itemize}
+		\item Внешность единичной окружности $|z| \ge 1$ отображается в полуполосу $\xi \in [0, +\infty)$, $\eta \in [0, 2\pi)$.
+		\item Поверхность цилиндра $|z| = 1$ отображается в линию $\xi = 0$.
+		\item Бесконечно удаленная точка $|z| \to \infty$ отображается в $\xi \to +\infty$.
+	\end{itemize}
+	
+	\subsection{Уравнение для потенциала скорости в координатах \texorpdfstring{$(\xi, \eta)$}{(xi, eta)}}
+	В декартовых координатах уравнение для потенциала скорости имеет вид:
+	\[
+	\frac{\partial}{\partial x} \left( \rho \frac{\partial \varphi}{\partial x} \right) + \frac{\partial}{\partial y} \left( \rho \frac{\partial \varphi}{\partial y} \right) = 0.
+	\]
+	
+	Для конформного отображения $w = f(z)$ оператор Лапласа преобразуется как:
+	\[
+	\frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} = |f'(z)|^2 \left( \frac{\partial^2}{\partial \xi^2} + \frac{\partial^2}{\partial \eta^2} \right).
+	\]
+	
+	В нашем случае $f(z) = \ln z$, следовательно:
+	\[
+	f'(z) = \frac{1}{z} = e^{-\zeta} = e^{-\xi} e^{-i\eta}, \quad |f'(z)| = e^{-\xi}.
+	\]
+	
+	Метрический коэффициент (якобиан) преобразования:
+	\[
+	J = |f'(z)|^{-2} = e^{2\xi}.
+	\]
+	
+	Уравнение неразрывности в криволинейных координатах имеет вид:
+	\[
+	\frac{\partial}{\partial \xi} \left( \rho \frac{\partial \varphi}{\partial \xi} \right) + \frac{\partial}{\partial \eta} \left( \rho \frac{\partial \varphi}{\partial \eta} \right) = 0,
+	\]
+	где использовано соотношение $\sqrt{g} = |f'(z)|^{-1} = e^{\xi}$ и тот факт, что для конформного отображения коэффициенты Ламэ равны. Более подробный вывод приведен в Приложении.
+	
+	Окончательное уравнение в координатах $(\xi, \eta)$:
+	\begin{equation}
+		\boxed{\frac{\partial}{\partial \xi} \left( \rho \frac{\partial \varphi}{\partial \xi} \right) + \frac{\partial}{\partial \eta} \left( \rho \frac{\partial \varphi}{\partial \eta} \right) = 0}
+	\end{equation}
+	
+	\subsection{Выражение для плотности через потенциал скорости}
+	Из интеграла Бернулли и условия изэнтропичности связь между плотностью и скоростью имеет вид:
+	\[
+	\rho = \left[ 1 + \frac{\gamma-1}{2} M_\infty^2 \left( 1 - q^2 \right) \right]^{\frac{1}{\gamma-1}},
+	\]
+	где $q^2 = u^2 + v^2$ — квадрат модуля скорости.
+	
+	В координатах $(\xi, \eta)$ компоненты физической скорости выражаются через потенциал:
+	\[
+	u = \frac{\partial \varphi}{\partial x} = e^{-\xi} \left( \cos\eta \frac{\partial \varphi}{\partial \xi} - \frac{\sin\eta}{e^{\xi}} \frac{\partial \varphi}{\partial \eta} \right), \quad
+	v = \frac{\partial \varphi}{\partial y} = e^{-\xi} \left( \sin\eta \frac{\partial \varphi}{\partial \xi} + \frac{\cos\eta}{e^{\xi}} \frac{\partial \varphi}{\partial \eta} \right).
+	\]
+	Квадрат скорости:
+	\[
+	q^2 = u^2 + v^2 = e^{-2\xi} \left[ \left( \frac{\partial \varphi}{\partial \xi} \right)^2 + \left( \frac{\partial \varphi}{\partial \eta} \right)^2 \right].
+	\]
+	
+	\subsection{Граничные условия в координатах \texorpdfstring{$(\xi, \eta)$}{(xi, eta)}}
+	
+	\subsubsection{Условие на поверхности цилиндра \texorpdfstring{($\xi = 0$)}{(xi = 0)}}
+	На поверхности цилиндра $\xi = 0$ (твердая стенка) потенциал скорости $\varphi$ должен удовлетворять условию непротекания $\frac{\partial \varphi}{\partial \xi} = 0$. В численной реализации это соответствует центрально-разностной аппроксимации второго порядка, при которой значения в фиктивных узлах за стенкой определяются как:
+	\[
+	\varphi_{-1,j} = \varphi_{1,j}.
+	\]
+	
+	\subsubsection{Условие на бесконечности \texorpdfstring{($\xi \to \infty$)}{(xi -> inf)}}
+	При $\xi \to \infty$ потенциал скорости стремится к потенциалу невозмущенного потока (условие Дирихле):
+	\[
+	\varphi \to e^{\xi} \cos \eta \quad \text{при} \quad \xi \to \infty.
+	\]
+	
+	\subsubsection{Условие на нижней и вехней границе}
+	\[
+	\varphi_{i,-1} = \varphi_{i,1}. \quad \varphi_{i,N_{\eta} -1} = \varphi_{i,N_{\eta} +1}
+	\]
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%55	
+	
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{stencil_scheme.png}
+	\caption{Разностная схема и шаблоны в расчетной области $(\xi, \eta)$. Показаны модификации шаблонов на границах: для твердой стенки ($\xi=0$), оси симметрии ($\eta=0, \pi$) и узлов перед бесконечностью.}
+	\label{fig:stencil}
+\end{figure}

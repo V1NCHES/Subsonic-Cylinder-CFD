@@ -1,0 +1,142 @@
+\section{Полностью неявный метод (ПНМ)}
+	
+	Полностью неявный метод (ПНМ) основан на одновременном решении системы нелинейных разностных уравнений с использованием линеаризации Ньютона.
+	
+	
+	
+	\subsection{Формулировка разностного уравнения}
+	Для внутреннего узла $(i,j)$, где $i = 1,\dots,N_\xi-1$, $j = 1,\dots,N_\eta-1$, разностное уравнение запишем в виде $F_{i,j} = 0$:
+	\begin{equation}
+		\begin{aligned}
+			F_{i,j} = &\frac{1}{\Delta \xi^2} \left[ \rho_{i+\frac{1}{2},j} (\varphi_{i+1,j} - \varphi_{i,j}) - \rho_{i-\frac{1}{2},j} (\varphi_{i,j} - \varphi_{i-1,j}) \right] + \\
+			&+ \frac{1}{\Delta \eta^2} \left[ \rho_{i,j+\frac{1}{2}} (\varphi_{i,j+1} - \varphi_{i,j}) - \rho_{i,j-\frac{1}{2}} (\varphi_{i,j} - \varphi_{i,j-1}) \right] = 0,
+		\end{aligned}
+		\label{eq:F}
+	\end{equation}
+	На границах области $F_{i,j}$ определяется соответствующими граничными условиями.
+	
+	%\subsubsection{Линеаризация по методу Ньютона}
+	Пусть $\boldsymbol{\varphi}^{(k)}$ — приближенное решение на $k$-й итерации. 
+	
+	Ищем поправку $\delta \boldsymbol{\varphi} = \boldsymbol{\varphi}^{(k+1)} - \boldsymbol{\varphi}^{(k)}$.
+
+
+	\subsection{Формирование разностной схемы }
+	
+	Для применения метода ПНМ (метод факторизации) запишем в общем пятиточечном виде:
+	\begin{equation}
+		\hat{A}_{i,j} \delta \varphi_{i,j-1} + A_{i,j} \delta \varphi_{i-1,j} + B_{i,j} \delta \varphi_{i,j} + C_{i,j} \delta \varphi_{i+1,j} + \hat{C}_{i,j} \delta \varphi_{i,j+1} = -F_{i,j},
+		\label{eq:sip_stencil}
+	\end{equation}
+	где $ -F_{i,j}^{(k)}$ — невязка на текущей итерации. Коэффициенты матрицы (в случае замороженной плотности) определяются выражениями:
+	
+	\begin{itemize}
+		\item $A_{i,j} = \rho_{i-1/2,j} / \Delta \xi^2$ ,
+		\item $B_{i,j} = -(A_{i,j} + C_{i,j} + \hat{A}_{i,j} + \hat{C}_{i,j})$ ,
+		\item $C_{i,j} = \rho_{i+1/2,j} / \Delta \xi^2$ ,
+		\item $\hat{A}_{i,j} = \rho_{i,j-1/2} / \Delta \eta^2$ ,
+		\item $\hat{C}_{i,j} = \rho_{i,j+1/2} / \Delta \eta^2$ .
+	\end{itemize}
+	
+	\paragraph{Учет граничных условий в матрице:}
+	Для реализации граничных условий в узлах, лежащих на границах расчетной области, используются модифицированные разностные уравнения. 
+	
+	\begin{enumerate}
+		\item \textbf{Точки на поверхности цилиндра ($i=0$, условие Неймана):} 
+		Для всех узлов на поверхности используется условие непротекания $\varphi_{-1,j} = \varphi_{1,j}$, что влечет $\delta\varphi_{-1,j} = \delta\varphi_{1,j}$.
+		\begin{itemize}
+			\item \textit{Угол $i=0, j=0$ (пересечение с нижней симметрией):}
+			Уравнение:
+			\[ B_{0,0} \delta\varphi_{0,0} + C_{0,0} \delta\varphi_{1,0} + \hat{C}_{0,0} \delta\varphi_{0,1} = -F_{0,0} \]
+			Коэффициенты:
+			\[ A_{0,0} = 0, \quad \hat{A}_{0,0} = 0, \quad C_{0,0} = \frac{2\rho_{1/2,0}}{\Delta \xi^2}, \quad \hat{C}_{0,0} = \frac{2\rho_{0,1/2}}{\Delta \eta^2}, \quad B_{0,0} = -(C_{0,0} + \hat{C}_{0,0}) \]
+			
+			\item \textit{Угол $i=0, j=N_\eta$ (пересечение с верхней симметрией):}
+			Уравнение:
+			\[ B_{0,N_\eta} \delta\varphi_{0,N_\eta} + C_{0,N_\eta} \delta\varphi_{1,N_\eta} + \hat{A}_{0,N_\eta} \delta\varphi_{0,N_\eta-1} = -F_{0,N_\eta} \]
+			Коэффициенты:
+			\[ A_{0,N_\eta} = 0, \quad \hat{C}_{0,N_\eta} = 0, \quad C_{0,N_\eta} = \frac{2\rho_{1/2,N_\eta}}{\Delta \xi^2}, \quad \hat{A}_{0,N_\eta} = \frac{2\rho_{0,N_\eta-1/2}}{\Delta \eta^2}, \quad B_{0,N_\eta} = -(C_{0,N_\eta} + \hat{A}_{0,N_\eta}) \]
+			
+			\item \textit{Граничные точки $i=0, j \in [1, N_\eta-1]$:}
+			Уравнение:
+			\[ B_{0,j} \delta\varphi_{0,j} + C_{0,j} \delta\varphi_{1,j} + \hat{A}_{0,j} \delta\varphi_{0,j-1} + \hat{C}_{0,j} \delta\varphi_{0,j+1} = -F_{0,j} \]
+			Коэффициенты:
+			\[ A_{0,j} = 0, \quad C_{0,j} = \frac{2\rho_{1/2,j}}{\Delta \xi^2}, \quad B_{0,j} = -(C_{0,j} + \hat{A}_{0,j} + \hat{C}_{0,j}) \]
+		\end{itemize}
+
+		\item \textbf{Точки на линиях симметрии ($j=0$ и $j=N_\eta$, условие Неймана):} 
+		Здесь используется условие $\delta\varphi_{i,-1} = \delta\varphi_{i,1}$ или $\delta\varphi_{i,N_\eta+1} = \delta\varphi_{i,N_\eta-1}$.
+		\begin{itemize}
+			\item \textit{Нижняя граница $j=0, i \in [1, N_\xi-1]$:} 
+			\[ \hat{A}_{i,0} = 0, \quad \hat{C}_{i,0} = \frac{2\rho_{i,1/2}}{\Delta \eta^2}, \quad B_{i,0} = -(A_{i,0} + C_{i,0} + \hat{C}_{i,0}) \]
+			\item \textit{Верхняя граница $j=N_\eta, i \in [1, N_\xi-1]$:} 
+			\[ \hat{C}_{i,N_\eta} = 0, \quad \hat{A}_{i,N_\eta} = \frac{2\rho_{i,N_\eta-1/2}}{\Delta \eta^2}, \quad B_{i,N_\eta} = -(A_{i,N_\eta} + C_{i,N_\eta} + \hat{A}_{i,N_\eta}) \]
+		\end{itemize}
+
+		\item \textbf{Внешняя граница ($i=N_\xi$, условие Дирихле):} 
+		Поскольку значение потенциала фиксировано $\varphi_{N_\xi,j} = \varphi_{N_\xi,j}^\infty$, поправка $\delta \varphi_{N_\xi,j} = 0$:
+		\[ B_{N_\xi,j} \delta\varphi_{N_\xi,j} = 0 \implies B_{N_\xi,j} = 1, \quad A = C = \hat{A} = \hat{C} = 0, \quad F_{N_\xi,j} = 0 \]
+
+	\end{enumerate}	
+		В глобальном векторе неизвестных система уравнений принимает вид $A \delta \boldsymbol{\varphi} = \mathbf{q}$, где матрица $A$ имеет характерную пятидиагональную структуру:
+	\[
+	A = \begin{pmatrix}
+		B & C & 0 & \dots & \hat{C} & & 0 \\
+		A & B & C & \ddots & 0 & \ddots & \\
+		0 & A & B & \ddots & \ddots & \ddots & \hat{C} \\
+		\vdots & 0 & \ddots & \ddots & \ddots & 0 & \vdots \\
+		\hat{A} & \ddots & \ddots & \ddots & B & C & 0 \\
+		& \ddots & 0 & \ddots & A & B & C \\
+		0 & & \hat{A} & \dots & 0 & A & B 
+	\end{pmatrix}
+	\]
+	Здесь диагонали $A$ и $C$ расположены непосредственно рядом с главной диагональю $B$, а диагонали $\hat{A}$ и $\hat{C}$ удалены от нее на расстояние, равное количеству узлов в строке сетки ($N_\xi+1$). Пространство между ними заполнено нулями, что отражает разреженность системы.
+	
+	
+	\subsubsection{Алгоритм сильно неявной процедуры (SIP) Стоуна}
+	
+	Метод Стоуна \cite{stone1968} (Strongly Implicit Procedure) использует модифицированное неполное $LU$-разложение матрицы системы: $[A+N] \delta \boldsymbol{\varphi} = \mathbf{q}$, где матрица $N$ выбирается таким образом, чтобы аппроксимируемая система $[A+N] $ была близка к исходной $A$ и легко факторизовалась.
+	
+	Разложение ищется в виде произведения нижнетреугольной $L$ и верхнетреугольной $U$ матриц. Структурно они представляют собой разреженные матрицы с тремя ненулевыми диагоналями каждая (одна центральная и две смещенные):
+	\[
+	L = \begin{pmatrix}
+		d_{i,j} & 0 & \dots \\
+		c_{i,j} & d_{i+1,j} & 0 \\
+		b_{i,j} & \dots & \ddots
+	\end{pmatrix}, \quad
+	U = \begin{pmatrix}
+		1 & e_{i,j} & f_{i,j} \\
+		0 & 1 & e_{i+1,j} \\
+		\dots & 0 & 1
+	\end{pmatrix}
+	\]
+	В терминах пятиточечного шаблона это можно записать как $L = [b_{i,j}, c_{i,j}, d_{i,j}]$ и $U = [1, e_{i,j}, f_{i,j}]$.
+	
+	\paragraph{Вычисление коэффициентов разложения:}
+	Для каждого узла $(i,j)$ последовательно вычисляются коэффициенты $b, c, d, e, f$. Чтобы формулы были более читаемыми, используем дробную запись:
+	\begin{equation}
+		\displaystyle
+		\left\{
+		\begin{aligned}
+			b_{i,j} &= \frac{\hat{A}_{i,j}}{1 + \alpha e_{i,j-1}} \\[10pt]
+			c_{i,j} &= \frac{A_{i,j}}{1 + \alpha f_{i-1,j}} \\[10pt]
+			d_{i,j} &= B_{i,j} + \alpha (b_{i,j} e_{i,j-1} + c_{i,j} f_{i-1,j}) - b_{i,j} f_{i,j-1} - c_{i,j} e_{i-1,j} \\[10pt]
+			e_{i,j} &= \frac{C_{i,j} - \alpha c_{i,j} f_{i-1,j}}{d_{i,j}} \\[10pt]
+			f_{i,j} &= \frac{\hat{C}_{i,j} - \alpha b_{i,j} e_{i,j-1}}{d_{i,j}}
+		\end{aligned}
+		\right.
+	\end{equation}
+	где $\alpha \in [0, 1]$ — параметр частичного учета влияния диагональных связей (обычно $\alpha \approx 0.92 \dots 0.95$).
+	
+	\paragraph{Решение системы (прямой и обратный ход):}
+	После вычисления коэффициентов решение $\delta \varphi_{i,j}$ находится в два этапа:
+	\begin{enumerate}
+		\item \textbf{Прямой ход ($L\mathbf{y} = \mathbf{q}$):}
+		\[ y_{i,j} = \frac{(q_{i,j} - b_{i,j} y_{i,j-1} - c_{i,j} y_{i-1,j})}{d_{i,j}}  . \]
+		\item \textbf{Обратный ход ($U \delta \boldsymbol{\varphi} = \mathbf{y}$):}
+		\[ \delta \varphi_{i,j} = y_{i,j} - e_{i,j} \delta \varphi_{i+1,j} - f_{i,j} \delta \varphi_{i,j+1}. \]
+	\end{enumerate}
+	
+	\paragraph{Итерационный процесс продолжается до обеспечения малости поправки $\|\delta \varphi\|_\infty < \epsilon$.}
+	
+

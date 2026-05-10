@@ -1,0 +1,89 @@
+\section{Метод последовательной верхней релаксации по строкам (SLOR)}
+	
+	В качестве альтернативного численного метода решения уравнения для потенциала используется метод последовательной верхней релаксации по строкам (Successive Line Over-Relaxation). Основная идея метода заключается в одновременном решении значений потенциала для всех узлов вдоль одной строки сетки ($\eta = \text{const}$). 
+	
+	\subsection{Шаблон разностной схемы}
+	
+	Для реализации метода SLOR исходное пятиточечное уравнение в узле $(i,j)$ разделяется на неявную часть (вдоль текущей строки $j$) и явную часть (соседние строки $j-1$ и $j+1$):
+	\begin{equation}
+		\underbrace{A_i \varphi_{i-1,j} + B_i \varphi_{i,j} + C_i \varphi_{i+1,j}}_{\text{Неявная часть (строка } j\text{)}} = \underbrace{D_i}_{\text{Явная часть (соседние строки)}}
+	\end{equation}
+	Шаблон схемы можно представить следующим образом:
+	\begin{equation*}
+		\begin{matrix}
+			& \varphi_{i,j+1}^{(n)} & \\
+			& \uparrow & \\
+			\varphi_{i-1,j}^{(n+1)} \leftarrow & \mathbf{\varphi_{i,j}^{(n+1)}} & \rightarrow \varphi_{i+1,j}^{(n+1)} \\
+			& \downarrow & \\
+			& \varphi_{i,j-1}^{(n+1)} & 
+		\end{matrix}
+	\end{equation*}
+	Здесь значения на текущей строке $j$ и на уже обработанной строке $j-1$ берутся с новой итерации $(n+1)$, а значение на строке $j+1$ — с предыдущей итерации $(n)$.
+	
+	\subsection{Формирование трехдиагональной системы}
+	На текущей итерации $n$ для каждой строки $j = 0, \dots, N_\eta$ решается система уравнений относительно неизвестных $\varphi_{i,j}$:
+	\begin{equation}
+		A_i \varphi_{i-1,j} + B_i \varphi_{i,j} + C_i \varphi_{i+1,j} = D_i,
+		\label{eq:slor_tridiag}
+	\end{equation}
+	где значения в соседних строках ($j-1$ и $j+1$) считаются известными. При этом для строки $j-1$ используются уже обновленные на текущей итерации значения $\varphi_{i,j-1}^{(n+1)}$, а для строки $j+1$ — значения с предыдущей итерации $\varphi_{i,j+1}^{(n)}$.
+	
+	Коэффициенты для внутренних узлов ($i \in [1, N_\xi-1], j \in [1, N_\eta-1]$):
+	\begin{itemize}
+		\item $A_i = \displaystyle -\frac{\rho_{i-1/2,j}}{\Delta \xi^2}$
+		\item $C_i = \displaystyle -\frac{\rho_{i+1/2,j}}{\Delta \xi^2}$
+		\item $B_i = \displaystyle \frac{\rho_{i+1/2,j} + \rho_{i-1/2,j}}{\Delta \xi^2} + \frac{\rho_{i,j+1/2} + \rho_{i,j-1/2}}{\Delta \eta^2}$
+		\item $D_i = \displaystyle \frac{\rho_{i,j+1/2} \varphi_{i,j+1} + \rho_{i,j-1/2} \varphi_{i,j-1}}{\Delta \eta^2}$
+	\end{itemize}
+	
+	\subsection{Учет граничных условий}
+	
+	Для реализации граничных условий в узлах, лежащих на границах расчетной области, используются модифицированные коэффициенты и уравнения.
+	
+	\begin{enumerate}
+		\item \textbf{Точки на поверхности цилиндра ($i=0$, условие Неймана):} 
+		Используется условие непротекания $\varphi_{-1,j} = \varphi_{1,j}$. Это приводит к занулению коэффициента $A_0$ и модификации $B_0, C_0$:
+		\begin{itemize}
+			\item \textit{Граничные точки $i=0, j \in [1, N_\eta-1]$:}
+			\[ A_0 = 0, \quad B_0 = \frac{2\rho_{1/2,j}}{\Delta \xi^2} + \frac{\rho_{0,j+1/2} + \rho_{0,j-1/2}}{\Delta \eta^2}, \quad C_0 = -\frac{2\rho_{1/2,j}}{\Delta \xi^2} \]
+			\[ D_0 = \frac{\rho_{0,j+1/2} \varphi_{0,j+1} + \rho_{0,j-1/2} \varphi_{0,j-1}}{\Delta \eta^2} \]
+			Уравнение принимает вид: $B_0 \varphi_{0,j} + C_0 \varphi_{1,j} = D_0$.
+			
+			\item \textit{Угловая точка $i=0, j=0$ (пересечение с нижней симметрией):}
+			\[ A_0 = 0, \quad B_0 = \frac{2\rho_{1/2,0}}{\Delta \xi^2} + \frac{2\rho_{0,1/2}}{\Delta \eta^2}, \quad C_0 = -\frac{2\rho_{1/2,0}}{\Delta \xi^2}, \quad D_0 = \frac{2\rho_{0,1/2} \varphi_{0,1}}{\Delta \eta^2} \]
+			Уравнение принимает вид: $B_0 \varphi_{0,0} + C_0 \varphi_{1,0} = D_0$.
+			
+			\item \textit{Угловая точка $i=0, j=N_\eta$ (пересечение с верхней симметрией):}
+			\[ A_0 = 0, \quad B_0 = \frac{2\rho_{1/2,N_\eta}}{\Delta \xi^2} + \frac{2\rho_{0,N_\eta-1/2}}{\Delta \eta^2}, \quad C_0 = -\frac{2\rho_{1/2,N_\eta}}{\Delta \xi^2}, \quad D_0 = \frac{2\rho_{0,N_\eta-1/2} \varphi_{0,N_\eta-1}}{\Delta \eta^2} \]
+			Уравнение принимает вид: $B_0 \varphi_{0,N_\eta} + C_0 \varphi_{1,N_\eta} = D_0$.
+		\end{itemize}
+
+		\item \textbf{Точки на линиях симметрии ($j=0$ и $j=N_\eta$, $i \in [1, N_\xi-1]$):} 
+		Используется условие $\varphi_{i,-1} = \varphi_{i,1}$ (или аналогично для верхней границы), что приводит к удвоению потока по $\eta$:
+		\begin{itemize}
+			\item \textit{Нижняя линия симметрии ($j=0$):}
+			\[ B_i = \frac{\rho_{i+1/2,0} + \rho_{i-1/2,0}}{\Delta \xi^2} + \frac{2\rho_{i,1/2}}{\Delta \eta^2}, \quad D_i = \frac{2\rho_{i,1/2} \varphi_{i,1}}{\Delta \eta^2} \]
+			Уравнение для узла $(i,0)$ сохраняет трехдиагональный вид: 
+			
+			$A_i \varphi_{i-1,0} + B_i \varphi_{i,0} + C_i \varphi_{i+1,0} = D_i$.
+			\item \textit{Верхняя линия симметрии ($j=N_\eta$):}
+			\[ B_i = \frac{\rho_{i+1/2,N_\eta} + \rho_{i-1/2,N_\eta}}{\Delta \xi^2} + \frac{2\rho_{i,N_\eta-1/2}}{\Delta \eta^2}, \quad D_i = \frac{2\rho_{i,N_\eta-1/2} \varphi_{i,N_\eta-1}}{\Delta \eta^2} \]
+			Уравнение для узла $(i,N_\eta)$ имеет вид: $A_i \varphi_{i-1,N_\eta} + B_i \varphi_{i,N_\eta} + C_i \varphi_{i+1,N_\eta} = D_i$.
+		\end{itemize}
+
+		\item \textbf{Внешняя граница ($i=N_\xi$, условие Дирихле):} 
+		Значение потенциала фиксировано $\varphi_{N_\xi,j} = \varphi_{N_\xi,j}^\infty$. В системе для узла $i=N_\xi-1$ это учитывается переносом слагаемого в правую часть:
+		\[ C_{N_\xi-1} = 0, \quad D_{N_\xi-1}^{new} = D_{N_\xi-1}^{old} - C_{N_\xi-1}^{old} \cdot \varphi_{N_\xi,j}^\infty \]
+		Уравнение для последнего расчетного узла в строке: 
+		
+		$A_{N_\xi-1} \varphi_{N_\xi-2,j} + B_{N_\xi-1} \varphi_{N_\xi-1,j} = D_{N_\xi-1}$.
+
+	\end{enumerate}
+	
+	\subsection{Релаксация}
+	
+	После нахождения промежуточного решения $\tilde{\varphi}_{i,j}$ из трехдиагональной системы, окончательное значение на итерации $n+1$ вычисляется с параметром сверхрелаксации $\omega$:
+	\begin{equation}
+		\varphi_{i,j}^{(n+1)} = (1 - \omega) \varphi_{i,j}^{(n)} + \omega \tilde{\varphi}_{i,j}
+	\end{equation}
+	Оптимальное значение $\omega$ для данной задачи обычно находится в диапазоне $1.5 \dots 1.8$.
